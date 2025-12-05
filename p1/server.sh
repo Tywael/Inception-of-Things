@@ -12,16 +12,16 @@ apt-get install -y curl ca-certificates sudo
 curl -sfL https://get.k3s.io -o /tmp/k3s_install.sh
 chmod +x /tmp/k3s_install.sh
 
-INSTALL_K3S_SKIP_START=true \
-INSTALL_K3S_EXEC="--write-kubeconfig-mode=644 \
-                  --node-ip=${SERVER_IP} \
-                  --advertise-address=${SERVER_IP} \
-                  --tls-san=${SERVER_IP}" \
-  /tmp/k3s_install.sh
+mkdir -p /etc/rancher/k3s
+cat <<EOF >/etc/rancher/k3s/config.yaml
+node-ip: ${SERVER_IP}
+advertise-address: ${SERVER_IP}
+tls-san:
+  - ${SERVER_IP}
+EOF
 
-systemctl daemon-reload
-systemctl enable k3s.service
-systemctl start k3s.service
+INSTALL_K3S_EXEC="--write-kubeconfig-mode=644" \
+  /tmp/k3s_install.sh
 
 TOKEN_FILE="/var/lib/rancher/k3s/server/node-token"
 echo "Waiting for K3s token..."
@@ -33,4 +33,5 @@ mkdir -p /home/vagrant/.kube
 cp /etc/rancher/k3s/k3s.yaml /home/vagrant/.kube/config
 chown -R vagrant:vagrant /home/vagrant/.kube
 
-echo "K3s server installed and running on ${SERVER_IP}:6443"
+echo "K3s server running at https://${SERVER_IP}:6443"
+
