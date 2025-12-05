@@ -1,0 +1,30 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.boot_timeout = 600
+
+  config.vm.define "ahuberS" do |server|
+    server.vm.hostname = "ahuberS"
+    server.vm.network "private_network", ip: "192.168.56.110"
+
+    server.vm.provider "virtualbox" do |vb|
+      vb.name = "ahuberS"
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+
+    server.vm.provision "shell", path: "server.sh"
+  end
+
+  config.vm.define "ahuberSW" do |worker|
+    worker.vm.hostname = "ahuberSW"
+    worker.vm.network "private_network", ip: "192.168.56.111"
+
+    worker.vm.provider "virtualbox" do |vb|
+      vb.name = "ahuberSW"
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+
+    worker.vm.provision "shell", path: "worker.sh", args: ["192.168.56.110"]
+  end
+end
