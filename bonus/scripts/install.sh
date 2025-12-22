@@ -45,16 +45,16 @@ k3d version
 log "k3d installation completed."
 
 # Create k3d cluster
-if ! k3d cluster list | grep -q "^iot-p3"; then
-    k3d cluster create iot-p3 \
+if ! k3d cluster list | grep -q "^iot-bonus"; then
+    k3d cluster create iot-bonus \
         -p "80:80@server:0" \
         -p "443:443@server:0" \
         -p "8888:8888@server:0" \
         --agents 1 \
         --k3s-arg "--disable=traefik@server:0"
-    log "k3d cluster iot-p3 created."
+    log "k3d cluster iot-bonus created."
 else
-    log "k3d cluster iot-p3 already exists, skipping creation."
+    log "k3d cluster iot-bonus already exists, skipping creation."
 fi
 
 kubectl get nodes
