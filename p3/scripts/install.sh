@@ -61,7 +61,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 # gitops dev environment setup
 kubectl create namespace dev --dry-run=client -o yaml | kubectl apply -f -
-kubectl apply -f ../confs/deploy.yaml
+kubectl apply -f ./confs/deploy.yaml
 log "Applications deployed successfully."
 
 kubectl -n argocd get applications
