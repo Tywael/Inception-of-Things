@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "https://github.com/Tywael/iotp3-application.git"
+    repoURL: "https://github.com/Tywael/yalthaus-iotp3-application.git"
     targetRevision: master
     path: manifests
   destination:
