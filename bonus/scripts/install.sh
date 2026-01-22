@@ -71,7 +71,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 # gitops dev environment setup
 kubectl create namespace dev --dry-run=client -o yaml | kubectl apply -f -
-kubectl apply -f ../confs/deploy.yaml
+kubectl apply -f ./confs/deploy.yaml
 log "Applications deployed successfully."
 
 kubectl -n argocd get applications
@@ -104,7 +104,7 @@ helm repo list | awk '{print $1}' | grep -qx gitlab || helm repo add gitlab http
 helm repo update
 helm upgrade --install gitlab gitlab/gitlab \
   -n gitlab \
-  -f ../confs/gitlab-values-k3d-min.yaml
+  -f ./confs/gitlab-values-k3d-min.yaml
 
 # Wait for GitLab pods to be ready
 log "Waiting for GitLab pods to start (this may take 5-10 minutes)..."
